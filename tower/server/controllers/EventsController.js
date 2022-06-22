@@ -8,8 +8,11 @@ export class EventsController extends BaseController {
         super('api/events');
         this.router
             .get('', this.getAllEvents)
+            .get('/:id', this.getById)
             .use(Auth0Provider.getAuthorizedUserInfo)
-            .post('', this.create);
+            .post('', this.create)
+            .put('/:id', this.update)
+            .delete('/:id', this.remove)
 
     }
 
@@ -21,6 +24,16 @@ export class EventsController extends BaseController {
             next(error);
         }
     }
+    async getById(req, res, next) {
+        try {
+            const towerEvent = await eventsService.getById(req.params.id);
+            res.send(towerEvent);
+        } catch (error) {
+            next(error);
+        }
+    }
+     
+
 
     async create(req, res, next) {
         try {
@@ -32,4 +45,33 @@ export class EventsController extends BaseController {
 
         }
 
-    }}
+    }
+    async update(req, res, next) {
+        try{
+            req.body.creatorId = req.userInfo.id
+            const towerEvent = await eventsService.update(req.params.id, req.body);
+            res.send(towerEvent);
+        } catch(error){
+            next(error);
+        }
+
+}
+    async remove(req, res, next) {
+        try{
+            const message = await eventsService.remove(req.params.id, req.userInfo);
+            res.send(message);
+        } catch(error){
+            next(error);
+        }
+}
+    async cancel(req, res, next){
+        try{
+            const eventCancelled = await eventsService.cancel(req.params.id);
+            res.send(eventCancelled);
+
+        } catch(error){
+            next(error);
+        }
+    }
+
+}
