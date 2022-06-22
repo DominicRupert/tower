@@ -32,4 +32,4 @@ export class EventsController extends BaseController {
 
         }
 
-    }
+    }}
