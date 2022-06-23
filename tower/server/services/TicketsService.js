@@ -54,15 +54,16 @@ class TicketsService {
   }
 
   async delete(id, userId, eventId, ticketData) {
-    const ticket = await this.getById(id);
-    if (ticket.accountId.toString() != userId) {
-      throw new Forbidden("You are not authorized to delete this ticket");
+    const ticket = await dbContext.Ticket.findById(id);
+    if (ticket.creatorId.toString() != userId) {
+        throw new Forbidden("You are not authorized to delete this ticket");
     }
-    const towerEvent = await dbContext.Events.findById(eventId);
+    const towerEvent = await dbContext.Events.findById(id);
     await ticket.remove();
+    
     towerEvent.capacity++;
-
     await towerEvent.save();
+    return ticket;
   }
 }
 
