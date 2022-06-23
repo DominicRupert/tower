@@ -3,9 +3,7 @@ import { BadRequest } from "@bcwdev/auth0provider/lib/Errors.js";
 //write a service to handle all the event functions
 
 class EventsService {
-  getComments(id, userInfo) {
-      throw new Error("Method not implemented.");
-  }
+ 
   async getAllEvents(query = {}) {
     let events = await dbContext.Events.find(query).populate(
       "creator",
@@ -33,6 +31,9 @@ class EventsService {
     );
     if (original.creatorId.toString() !== update.creatorId) {
       throw new BadRequest("You are not authorized to update this event");
+    }
+    if (original.isCanceled) {
+      throw new BadRequest("This event is already canceled");
     }
  
     original.name = update.name ? update.name : original.name;

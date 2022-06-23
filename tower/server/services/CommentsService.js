@@ -9,26 +9,34 @@ import { ticketsService } from "./TicketsService.js";
 class CommentsService {
 
     async getEventComments(eventId, userId) {
-        const comments = await dbContext.Comments.find({ eventId }).populate(
-            "account",
-            "name picture"
+        const comments = await dbContext.Comments.find({ eventId })
+        .populate(
+            'creator', 'name picture'
+         
         );
+        
         
         return comments;
     }
 
     async create(body){
-        const comments = await dbContext.Comments.create(body);
-        await comments.populate("account", "name picture", "creator")
-        return comments;
+        const comment = await dbContext.Comments.create(body);
+        await comment.populate(  "creator")
+        return comment;
     }
-    /**
-   * Sets the closed property to true
-   * @param {String} id - The Tier Id
-   * @param {String} userId - The Id of the current user
-   */
 
-    
+  
+  async delete(id,userId){
+    const comment = await dbContext.Comments.findById(id)
+    if (comment.creatorId.toString() != userId) {
+        throw new BadRequest("CANT")
+
+    }
+     comment.remove()
+    return `deleted comment ${comment.body}`
+  }
+
+
 }
 
 
