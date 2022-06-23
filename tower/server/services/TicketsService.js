@@ -5,16 +5,24 @@ class TicketsService {
   async getAccountEventTicket(accountId, eventId) {
     const ticket = await dbContext.Ticket.findOne({ accountId, eventId })
       .populate("account", "name picture")
-      .populate("towerEvent");
+      .populate("event");
     return ticket;
   }
 
   async getMyTickets(accountId) {
-    const events = await dbContext.Ticket.find({ accountId }).populate(
-      "towerEvent"
-      
+    const ticket = await dbContext.Ticket.find({ accountId })
+      .populate("account", "name picture")
+      .populate("event");
+
+    const events = await dbContext.Ticket.find({ accountId })
+      .populate("event","account", )
+      .populate("account", "event");
+    await dbContext.Ticket.find({ accountId }).populate(
+      "event",
+      "account"
     );
-    return events;
+   
+    return ticket;
   }
 
   async getEventTickets(eventId, userId) {
@@ -24,15 +32,14 @@ class TicketsService {
       "name picture"
     );
 
-
     return tickets;
   }
 
   async getById(id) {
     const ticket = await dbContext.Ticket.findById(id);
-    // if (!ticket) {
-    //   throw new BadRequest("Ticket not found");
-    // }
+    if (!ticket) {
+      throw new BadRequest("Ticket not found");
+    }
     return ticket;
   }
 
@@ -57,17 +64,17 @@ class TicketsService {
     return ticket;
   }
 
-  async delete(userId, id, ticketData) {
-      // if (!ticket) {
-          //   throw new BadRequest("Ticket not found");
-          const ticket = await this.getById(id)
-          // }
-          if (ticket.accountId.toString() != userId) {
-              throw new Forbidden("You are not authorized to delete this ticket");
-            }
-    // const towerEvent = await dbContext.Events.findById(id);
-    // towerEvent.capacity--;
-    // await towerEvent.save();
+  async delete(id, userId) {
+    const ticket = await dbContext.Ticket.findById(id);
+    if (!ticket) {
+      throw new BadRequest("Ticket not found");
+    }
+    if (ticket.accountId.toString() != userId) {
+      throw new Forbidden("You are not authorized to delete this ticket");
+    }
+    const towerEvent = await dbContext.Events.findById(ticket.eventId);
+    towerEvent.capacity++;
+    await towerEvent.save();
     await ticket.remove();
     return ticket;
   }

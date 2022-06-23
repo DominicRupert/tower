@@ -8,6 +8,7 @@ export class TicketsController extends BaseController {
     super("api/tickets");
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .get(':/id/tickets' )
       .post("", this.create)
 
       .delete("/:id", this.delete);

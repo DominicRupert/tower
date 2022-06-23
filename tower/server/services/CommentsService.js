@@ -9,17 +9,26 @@ import { ticketsService } from "./TicketsService.js";
 class CommentsService {
 
     async getEventComments(eventId, userId) {
-        const towerEvent = await eventsService.getById(eventId);
         const comments = await dbContext.Comments.find({ eventId }).populate(
             "account",
             "name picture"
         );
-        const myComment = await ticketsService.getAccountEventTicket(userId, eventId)
-        if (myComment) {
-            comments.push(myComment);
-        }   
+        
         return comments;
     }
+
+    async create(body){
+        const comments = await dbContext.Comments.create(body);
+        await comments.populate("account", "name picture", "creator")
+        return comments;
+    }
+    /**
+   * Sets the closed property to true
+   * @param {String} id - The Tier Id
+   * @param {String} userId - The Id of the current user
+   */
+
+    
 }
 
 
