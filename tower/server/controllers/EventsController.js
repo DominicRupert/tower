@@ -77,7 +77,7 @@ export class EventsController extends BaseController {
   async getComments(req, res, next) {
     try {
       const userInfo = req.userInfo;
-      const comments = await eventsService.getComments(req.params.id, userInfo);
+      const comments = await eventsService.getComments(req.params.id, userInfo.id);
       res.send(comments);
     } catch (error) {
       next(error);
