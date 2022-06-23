@@ -12,8 +12,16 @@
     </section>
     <section id="comments" class="container-fluid">
       <h1>See what people are saying</h1>
-      <div >
-        <Comment v-for="c in comments" :key="c.id" :comment="c"/>
+      <div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createComment">
+          CREATE A COMMENT
+        </button>
+        <div class="modal fade" id="createComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <!-- NOTE COMMENT FORM MODAL -->
+</div>
+      </div>
+      <div>
+        <Comment v-for="c in comments" :key="c.id" :comment="c" />
       </div>
 
     </section>
