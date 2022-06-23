@@ -34,9 +34,7 @@ class EventsService {
     if (original.creatorId.toString() !== update.creatorId) {
       throw new BadRequest("You are not authorized to update this event");
     }
-    if (original.isCanceled) {
-      throw new BadRequest("This event is already canceled");
-    }
+ 
     original.name = update.name ? update.name : original.name;
     original.description = update.description
       ? update.description

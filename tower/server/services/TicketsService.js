@@ -1,7 +1,5 @@
 import { dbContext } from "../db/dbContext.js";
 import { BadRequest, Forbidden } from "@bcwdev/auth0provider/lib/Errors.js";
-import { TowerEventSchema } from "../models/TowerEvent.js";
-import { eventsService } from "../services/EventsService.js";
 
 class TicketsService {
   async getAccountEventTicket(accountId, eventId) {
@@ -25,19 +23,16 @@ class TicketsService {
       "account",
       "name picture"
     );
-    const myTicket = await this.getAccountEventTicket(userId, eventId);
-    if (myTicket) {
-      tickets.push(myTicket);
-    }
+
 
     return tickets;
   }
 
   async getById(id) {
     const ticket = await dbContext.Ticket.findById(id);
-    if (!ticket) {
-      throw new BadRequest("Ticket not found");
-    }
+    // if (!ticket) {
+    //   throw new BadRequest("Ticket not found");
+    // }
     return ticket;
   }
 
@@ -58,21 +53,22 @@ class TicketsService {
     towerEvent.capacity--;
 
     await towerEvent.save();
+    await ticket.save();
     return ticket;
   }
 
-  async delete(userId, id, eventId) {
-    const ticket = await dbContext.Ticket.findById(id);
-    if (!ticket) {
-      throw new BadRequest("Ticket not found");
-    }
-    if (ticket.accountId.toString() !== userId) {
-      throw new Forbidden("You are not authorized to delete this ticket");
-    }
-    const towerEvent = await dbContext.Events.findById(ticket.eventId);
+  async delete(userId, id, ticketData) {
+      // if (!ticket) {
+          //   throw new BadRequest("Ticket not found");
+          const ticket = await this.getById(id)
+          // }
+          if (ticket.accountId.toString() != userId) {
+              throw new Forbidden("You are not authorized to delete this ticket");
+            }
+    // const towerEvent = await dbContext.Events.findById(id);
+    // towerEvent.capacity--;
+    // await towerEvent.save();
     await ticket.remove();
-    towerEvent.capacity++;
-    towerEvent.save();
     return ticket;
   }
 }
