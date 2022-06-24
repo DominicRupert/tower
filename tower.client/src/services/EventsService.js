@@ -15,7 +15,7 @@ class EventsService{
         logger.log('[get events]', res.data)
         AppState.events=res.data
     }
-
+  
 
     async getEvent(id){
         const res = await api.get('api/events/'+ id)

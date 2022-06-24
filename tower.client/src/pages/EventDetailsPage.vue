@@ -1,6 +1,6 @@
 <template>
-  <div class="event-details-page container-fluid">
-    <section id="event" class="justify-content-center text-center">
+  <div class="event-details-page container-fluid bg-secondary ">
+    <section id="event" class="justify-content-center container-fluid text-center">
     
       <h1>Details for {{ event.name }}  </h1>
       <button v-if="account.id == event.creatorId" @click.stop="deleteEvent">
@@ -20,7 +20,7 @@
       <h2>It's habbening {{ event.location }}</h2>
       <img class="img-fluid" :src="event.coverImg" alt="" />
     </section>
-    <section id="ticket-container">
+    <section id="ticket-container " class="container-fluid">
       <h1>Get Tickets</h1>
       <div class="row justify-content-center">
         <Ticket
@@ -52,12 +52,15 @@
         </Modal>
       </div>
       <div id="comments" class="container-fluid">
-        <Comment
+        <h1>
+
+          <Comment
           v-for="c in comments"
           :key="c.id"
           :comment="c"
          
         />
+        </h1>
       </div>
     </section>
   </div>

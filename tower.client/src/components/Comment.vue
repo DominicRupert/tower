@@ -1,13 +1,13 @@
 <template>
   <div class="comment">
-    <i
-      class="mdi mdi-delete"
-      v-if="comment.creatorId == accountId"
-      @click="deleteComment"
-    ></i>
-    <div>
-      <p>
-        {{ comment.body }}
+      <div>
+          <p>
+              {{ comment.body }}
+          <i
+            class="mdi mdi-delete"
+            v-if="comment.creatorId == accountId"
+            @click="deleteComment"
+          ></i>
       </p>
     </div>
   </div>
