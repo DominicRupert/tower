@@ -67,7 +67,7 @@
       v-if="!event"
       type="submit"
       class="btn btn-primary"
-      @click="createEvent"
+      @click.prevent="createEvent"
     >
       Submit your new event!
     </button>

@@ -31,11 +31,11 @@ export default {
       account: computed(() => AppState.account),
       async deleteComment() {
         try {
-            if(await Pop.confirm()){
+          if (await Pop.confirm()) {
 
-                await commentsService.deleteComment(props.comment.id);
-          Pop.success("Comment deleted successfully");
-            }
+            await commentsService.deleteComment(props.comment.id);
+            Pop.success("Comment deleted successfully");
+          }
         }
         catch (error) {
           Pop.error(error.message);

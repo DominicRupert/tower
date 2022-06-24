@@ -17,7 +17,7 @@ class AccountService {
     logger.log('account events', res.data)
     AppState.accountEvents = res.data
   }
-async getTickets(){
+async getMyTickets(){
   try {
     
     const res = await api.get ('account/tickets')

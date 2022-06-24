@@ -1,7 +1,11 @@
 <template>
   <div class="event-details-page container-fluid">
     <section id="event" class="justify-content-center text-center">
-      <h1>Details for {{ event.name }}</h1>
+    
+      <h1>Details for {{ event.name }}  </h1>
+      <button v-if="account.id == event.creatorId" @click.stop="deleteEvent">
+              <i class="mdi mdi-delete"></i>
+            </button>
       <h2>
         It's habbening on
         {{
@@ -15,6 +19,18 @@
       </h2>
       <h2>It's habbening {{ event.location }}</h2>
       <img class="img-fluid" :src="event.coverImg" alt="" />
+    </section>
+    <section id="ticket-container">
+      <h1>Get Tickets</h1>
+      <div class="row justify-content-center">
+        <Ticket
+          :ticket="t"
+          v-for="t in tickets"
+          :key="t.id"
+          class="col-3 py-2"
+        />
+      </div>
+
     </section>
 
     <section id="comments" class="container-fluid">
@@ -35,8 +51,13 @@
           </template>
         </Modal>
       </div>
-      <div id="comments" class="container-fluid ">
-        <Comment v-for="c in comments" :key="c.id" :comment="c" class="bg-dark"/>
+      <div id="comments" class="container-fluid">
+        <Comment
+          v-for="c in comments"
+          :key="c.id"
+          :comment="c"
+         
+        />
       </div>
     </section>
   </div>
@@ -55,7 +76,13 @@ import CreateComment from '../components/CreateComment.vue'
 
 
 export default {
-  setup() {
+  props: {
+    event: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
     const route = useRoute();
     watchEffect(async () => {
       try {
@@ -72,7 +99,20 @@ export default {
       }
     });
     return {
-      myTickets : computed(() => AppState.myTickets.find(t=> AppState.activeEvent.id == t.eventId)),
+      async deleteEvent(eventId) {
+        try {
+          if (await Pop.confirm)
+            await eventsService.deleteEvent(eventId);
+          Pop.toast("Event deleted", "success")
+        }
+        catch (error) {
+          Pop.toast(error.message, "error");
+        }
+        ;
+      },
+
+      event: computed(() => AppState.event),
+      myTickets: computed(() => AppState.myTickets.find(t => AppState.activeEvent.id == t.eventId)),
       event: computed(() => AppState.activeEvent),
       comments: computed(() => AppState.comments),
       tickets: computed(() => AppState.tickets),
