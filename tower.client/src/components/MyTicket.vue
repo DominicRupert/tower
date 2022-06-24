@@ -1,7 +1,7 @@
 <template>
   <div class="myTicket container bg-dark" @click="goTo">
    
-    <p>{{ ticket.event.type }}</p>
+    <p>{{ticket.event.type }}</p>
     <p>{{ ticket.event.date }}</p>
     <p>{{ ticket.event.location }}</p>
     <p>{{ ticket.event.description }}</p>
@@ -11,6 +11,9 @@
 
 
 <script>
+import { onMounted, computed } from '@vue/runtime-core'
+import { useRoute } from 'vue-router'
+import { AppState } from '../AppState.js'
 import { ticketsService } from '../services/TicketsService.js'
 import Pop from '../utils/Pop.js'
 export default {
@@ -21,7 +24,18 @@ export default {
     }
   },
   setup(props) {
+   
+    onMounted(async()=> {
+        try {
+          await ticketsService.getTicketsByEvent(props.ticket.id);
+        }
+        catch (error) {
+          logger.error(error);
+          Pop.toast(error.message, "error");
+        }
+    })
     return {
+        tickets: computed(() => AppState.tickets),
       async deleteTicket() {
         try {
           if (await Pop.confirm('cancel ticket?')) {

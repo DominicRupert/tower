@@ -111,10 +111,10 @@ export default {
   },
 
       event: computed(() => AppState.event),
-      myTickets: computed(() => AppState.myTickets.find(t => AppState.activeEvent.id == t.eventId)),
+     
       event: computed(() => AppState.activeEvent),
       comments: computed(() => AppState.comments),
-      tickets: computed(() => AppState.tickets),
+      tickets: computed(() => AppState.myTickets),
       account: computed(() => AppState.account),
     };
   },
