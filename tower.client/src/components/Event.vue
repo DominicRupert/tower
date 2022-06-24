@@ -30,12 +30,7 @@ export default {
                 router.push({ name: 'EventDetails', params: { id: props.event.id } })
             },
 
-            formatDate(rawDate) {
-                let time = new Date(rawDate)
-                let month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(time)
-                let year = time.getUTCFullYear()
-                return `${month} ${year}`
-            }
+        
         }
     }
 }
