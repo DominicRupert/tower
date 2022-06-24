@@ -1,14 +1,15 @@
 <template>
-  <div class="comment">
-      <div>
-          <p>
-              {{ comment.body }}
-          <i
-            class="mdi mdi-delete"
-            v-if="comment.creatorId == accountId"
-            @click="deleteComment"
-          ></i>
-      </p>
+  <div class="comments">
+    <div class="row">
+      <h1>
+        {{ comment.body }}
+      </h1>
+
+      <i
+        class="mdi mdi-delete"
+        v-if="comment.creatorId == accountId"
+        @click="deleteComment"
+      ></i>
     </div>
   </div>
 </template>
@@ -34,7 +35,7 @@ export default {
           if (await Pop.confirm()) {
 
             await commentsService.deleteComment(props.comment.id);
-            Pop.success("Comment deleted successfully");
+            Pop.toast("Comment deleted successfully");
           }
         }
         catch (error) {

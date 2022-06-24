@@ -4,9 +4,10 @@ import { api } from './AxiosService.js'
 
 class CommentsService{
     async createComment(body){
-        const res = await api.post('/api/comments', body)
-        logger.log('[comment comment]', res.data)
-        AppState.comments.push(res.data)
+        const res = await api.post('api/comments', body)
+        logger.log('comments', res.data)
+        AppState.comments = AppState.comments.push(res.data)
+        
     }
 
     async getCommentsByEvent(eventId){

@@ -24,7 +24,7 @@ import { commentsService } from "../services/CommentsService.js";
 import Pop from "../utils/Pop.js";
 import { Modal } from 'bootstrap';
 export default {
-  name: "CreateComment",
+
   setup() {
     const editable = ref({});
     const route = useRoute()

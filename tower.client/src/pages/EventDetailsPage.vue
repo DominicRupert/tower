@@ -1,11 +1,13 @@
 <template>
-  <div class="event-details-page container-fluid bg-secondary ">
-    <section id="event" class="justify-content-center container-fluid text-center">
-    
-      <h1>Details for {{ event.name }}  </h1>
+  <div class="event-details-page container-fluid bg-secondary">
+    <section
+      id="event"
+      class="justify-content-center container-fluid text-center"
+    >
+      <h1>Details for {{ event.name }}</h1>
       <button v-if="account.id == event.creatorId" @click.stop="deleteEvent">
-              <i class="mdi mdi-delete"></i>
-            </button>
+        <i class="mdi mdi-delete"></i>
+      </button>
       <h2>
         It's habbening on
         {{
@@ -19,21 +21,17 @@
       </h2>
       <h2>It's habbening {{ event.location }}</h2>
       <img class="img-fluid" :src="event.coverImg" alt="" />
+
+      <Comment v-for="c in comments" :key="c.id" :comment="c" />
     </section>
     <section id="ticket-container " class="container-fluid">
       <h1>Get Tickets</h1>
       <div class="row justify-content-center">
-        <Ticket
-          :ticket="t"
-          v-for="t in tickets"
-          :key="t.id"
-          class="col-3 py-2"
-        />
+        <button @click="createTicket">get ticket</button>
       </div>
-
     </section>
 
-    <section id="comments" class="container-fluid">
+    <section class="container-fluid">
       <h1>See what people are saying</h1>
       <div>
         <button
@@ -44,25 +42,15 @@
         >
           CREATE A COMMENT
         </button>
-        <Modal id="create-comment">
-          <template #header>Comment on {{ event.name }}</template>
-          <template #body>
-            <CreateComment />
-          </template>
-        </Modal>
-      </div>
-      <div id="comments" class="container-fluid">
-        <h1>
-
-          <Comment
-          v-for="c in comments"
-          :key="c.id"
-          :comment="c"
-         
-        />
-        </h1>
       </div>
     </section>
+
+    <Modal id="create-comment">
+      <template #header>Comment on {{ event.name }}</template>
+      <template #body>
+        <CreateComment />
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -76,21 +64,17 @@ import { ticketsService } from '../services/TicketsService.js'
 import Pop from '../utils/Pop.js'
 import Modal from '../components/Modal.vue'
 import CreateComment from '../components/CreateComment.vue'
-
+import { logger } from '../utils/Logger.js'
 
 export default {
-  props: {
-    event: {
-      type: Object,
-      required: true
-    }
-  },
-  setup(props) {
+
+  setup() {
     const route = useRoute();
     watchEffect(async () => {
       try {
         if (route.name == "EventDetails") {
           AppState.myTickets.length
+          
           await eventsService.getEvent(route.params.id);
           await ticketsService.getTicketsByEvent(route.params.id);
           await commentsService.getCommentsByEvent(route.params.id);
@@ -113,6 +97,18 @@ export default {
         }
         ;
       },
+  async createTicket() {
+    try {
+      await ticketsService.createTicket({
+        eventId: route.params.id,
+        userId: AppState.account.id,
+      });
+      Pop.toast("Ticket created", "success");
+    }
+    catch (error) {
+      Pop.toast(error.message, "error");
+    }
+  },
 
       event: computed(() => AppState.event),
       myTickets: computed(() => AppState.myTickets.find(t => AppState.activeEvent.id == t.eventId)),
@@ -122,6 +118,7 @@ export default {
       account: computed(() => AppState.account),
     };
   },
-  components: { Modal, CreateComment }
 }
 </script>
+<style>
+</style>

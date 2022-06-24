@@ -9,12 +9,12 @@
     "
   >
     <div class="row justify-content-center">
-      <section id="account-details">
+      <section id="account-details " class="justify-content-center flex-column">
         <div>
           <p>{{ account.name }}</p>
           <p>{{ account.email }}</p>
         </div>
-        <img :src="account.picture" alt="" />
+        <img :src="account.picture" class="img-fluid" alt="" />
       </section>
       <section id="account-events">
         <h1>Events</h1>
@@ -34,11 +34,11 @@
       <section id="my-tickets">
         <h1>My Tickets</h1>
         <div>
-          <Ticket
-            :ticket="t"
+          <MyTicket
             v-for="t in tickets"
             :key="t.id"
-            class="col-3 py-2"
+            :ticket="t"
+
           />
         </div>
       </section>
@@ -56,30 +56,32 @@
 import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { accountService } from '../services/AccountService.js';
+import { eventsService } from '../services/EventsService.js';
+import { ticketsService } from '../services/TicketsService.js';
+import Pop from '../utils/Pop.js';
+import {commentsService} from '../services/CommentsService.js';
+import { logger } from '../utils/Logger.js';
+
+import MyTicket from '../components/MyTicket.vue';
 
 export default {
-  name: "Account",
-  setup() {
-    onMounted(async () => {
-      await accountService.getMyEvents();
-      await accountService.getMyTickets();
-
-    })
-    return {
-
-      
-      tickets: computed(() => AppState.tickets),
-      account: computed(() => AppState.account),
-      events: computed(() => AppState.accountEvents),
-      myTickets: computed(() => AppState.myTickets),
-    };
-  },
-
+    name: "Account",
+    setup() {
+        onMounted(async () => {
+            await accountService.getMyEvents();
+            await accountService.getMyTickets();
+        });
+        return {
+            tickets: computed(() => AppState.tickets),
+            account: computed(() => AppState.account),
+            events: computed(() => AppState.accountEvents),
+            myTickets: computed(() => AppState.myTickets),
+        };
+    },
+    components: { MyTicket }
 }
 </script>
 
 <style scoped>
-img {
-  max-width: 100px;
-}
+
 </style>
