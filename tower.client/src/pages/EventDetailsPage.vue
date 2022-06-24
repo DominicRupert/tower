@@ -1,6 +1,7 @@
 <template>
   <div class="event-details-page container-fluid bg-secondary">
     <section id="event" class="justify-content-center container-fluid text-center">
+      <h1>Event Creator: {{event.creator.name}}</h1>
       <h1 class="py-4 d-flex justify-content-around">Details for {{ event.name }}<button class="btn btn-danger" v-show="event.isCanceled == false" v-if="account.id == event.creatorId"
         @click.stop="deleteEvent(event.id)">
         <h4 class="mdi mdi-delete">Cancel your Event?</h4>
@@ -25,6 +26,7 @@
 
 
     </section>
+      <h4 class="px-5">{{event.description}}</h4>
     <section id="ticket-container " class="container-fluid justify-content-center d-flex flex-column">
       <h1 v-if="event.isCanceled == false" class="text-center">Get Tickets! Tickets remaining: {{ event.capacity }} </h1>
 

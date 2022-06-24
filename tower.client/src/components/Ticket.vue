@@ -1,6 +1,7 @@
 <template>
-  <div class=" container bg-dark" >
-   <div class="d-flex flex-row ">
+
+   <div class=" row justify-content-center">
+  <div class=" col-3 d-flex justify-content-center bg-dark" >
     
 
  
