@@ -26,23 +26,25 @@
 
     </section>
     <section id="ticket-container " class="container-fluid justify-content-center d-flex flex-column">
-      <h1 class="text-center">Get Tickets! Tickets remaining: {{ event.capacity }} </h1>
+      <h1 v-if="event.isCanceled == false" class="text-center">Get Tickets! Tickets remaining: {{ event.capacity }} </h1>
 
-      <button class="btn bg-success" @click="createTicket">
+      <button v-if="event.isCanceled == false" class="btn bg-success" @click="createTicket">
         <h2> Get Ticket!</h2>
         <h4> </h4>
       </button>
-      <button class="mdi btn btn-light  mdi-delete" v-if="tickets.eventId == account.eventId"
-        @click.stop="deleteTicket">Cancel attendance?</button>
-      <div class="row justify-content-center">
-        <div class="">
+     
+      
+        <div class="container-fluid text-center d-flex justify-content-center flex-column">
           <h1>Who's attending?</h1>
-          <div v-for="tick in Tickets" :key="tick.id" >
-          <Ticket :tickets="tick" />
+          <div class="row">
+
+            <div v-for="tick in tickets" :key="tick.id" >
+          <Ticket :ticket="tick" />
+          </div>
           </div>
 
         </div>
-      </div>
+    
     </section>
 
     <section class="">
@@ -92,8 +94,6 @@ import { logger } from '../utils/Logger.js'
 
 
 export default {
-  props: { event: { type: Object, required: true } },
-  props: { ticket: { type: Object, required: true } },
   setup(props) {
     onMounted(async () => {
       await accountService.getMyEvents();
@@ -103,7 +103,6 @@ export default {
     watchEffect(async () => {
       try {
         if (route.name == "EventDetails") {
-          AppState.myTickets.length;
           await eventsService.getEvent(route.params.id);
           await ticketsService.getTicketsByEvent(route.params.id);
           await commentsService.getCommentsByEvent(route.params.id);
@@ -156,7 +155,7 @@ export default {
       event: computed(() => AppState.event),
       event: computed(() => AppState.activeEvent),
       comments: computed(() => AppState.comments),
-      tickets: computed(() => AppState.myTickets),
+      myTickets: computed(() => AppState.myTickets),
       tickets: computed(() => AppState.tickets),
       account: computed(() => AppState.account),
     };

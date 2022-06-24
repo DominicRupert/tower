@@ -1,11 +1,13 @@
 <template>
-  <div class="myTicket container bg-dark" @click="goTo">
-   <div class="d-flex justify-content-between">
+  <div class=" container bg-dark" >
+   <div class="d-flex flex-row ">
+    
 
-     <p class=" d-flex">Name: {{account.name}}
-     </p> 
-     <img :src="account.img" alt="">  
-   </div>
+ 
+        <img :title="ticket.account?.name" class="img-fluid img" :src="ticket.account?.picture" alt=""> 
+          
+   
+        </div>
 
    
     
@@ -28,10 +30,10 @@ export default {
     }
   },
   setup(props) {
-   
+   const hasTicket = computed (()=> AppState)
     onMounted(async()=> {
         try {
-          await ticketsService.getTicketsByEvent(props.ticket.id);
+ 
         }
         catch (error) {
           logger.error(error);
@@ -65,6 +67,9 @@ export default {
   padding: 10px;
   margin: 10px;
   cursor: pointer;
+}
+.img{
+    transform: scale(0.8);
 }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="event-card selectable" @click="selectEvent">
     <img class="img-fluid" :src="event.coverImg" alt="" />
-    <div class="text-center bg-primary rounded-3">
+    <div class="text-center p-2 bg-primary rounded-3">
       <h2 class="py-3">{{ event.name }}</h2>
       <h4 class="py-3">Venue: {{ event.location }}</h4>
       <h4>
@@ -16,10 +16,12 @@
         }}
       </h4>
       <h4>Max capacity: {{ event.capacity }}</h4>
-
-      <p>{{ event.description }}</p>
-      <h4 class="bg-danger rounded-3 p-2" v-if=" event.isCanceled == true">Sorry, this event is cancelled</h4>
     </div>
+<div>
+
+  <p>{{ event.description }}</p>
+</div>
+      <h4 class="bg-danger rounded-3 p-2" v-if=" event.isCanceled == true">Sorry, this event is cancelled</h4>
   </div>
 </template>
 

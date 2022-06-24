@@ -102,10 +102,10 @@ export default {
       editable,
       async createEvent() {
         try {
-          await eventsService.createEvent(editable.value)
+         const newEvent = await eventsService.createEvent(editable.value)
           Pop.toast('Event made')
           Modal.getOrCreateInstance(document.getElementById('create-event')).hide()
-          router.push({ name: 'EventDetails', params: {id: props.eventId } })
+          router.push({ name: 'EventDetails', params: {id: newEvent.id } })
         } catch (error) {
           Pop.toast(error.message)
           logger.error(error)

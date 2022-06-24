@@ -9,6 +9,7 @@ class EventsService{
         const res = await api.post('api/events', body)
         logger.log('created event', res.data)
         AppState.accountEvents.push(res.data)
+        return res.data
     }
     async getEvents(query = ''){
         const res = await api.get('api/events' + query)
