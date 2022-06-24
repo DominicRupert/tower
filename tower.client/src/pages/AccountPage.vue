@@ -1,4 +1,5 @@
 <template>
+
   <div
     class="
       account-page
@@ -10,37 +11,43 @@
   >
     <div class="row justify-content-center">
       <section id="account-details " class="justify-content-center flex-column">
-        <div>
-          <p>{{ account.name }}</p>
-          <p>{{ account.email }}</p>
-        </div>
         <img :src="account.picture" class="img-fluid" alt="" />
-      </section>
-      <section id="account-events">
-        <h1>Events</h1>
+        <div class="container-fluid text-center justify-content-center d-flex flex-column">
+        <div>
+          <h1>My name: {{ account.name }}</h1>
+          <p>My email: {{ account.email }}</p>
+        </div>
+    
+
+          <h1>Events you've made</h1>
         <div id="events-container">
-          <div v-for="e in events" :key="e.id" class="col-3 py-2">
+          <div v-for="e in events" :key="e.id" class="py-2">
           
 
             <router-link :to="{ name: 'EventDetails', params: { id: e.id } }"
-              >{{ e.name }}
+              ><h3>{{ e.name }}</h3>
             </router-link>
           </div>
-        </div>
-        <button data-bs-toggle="modal" data-bs-target="#create-event">
+        <button class="btn btn-danger " data-bs-toggle="modal" data-bs-target="#create-event">
           Create Event
         </button>
+          </div>
+        </div>
       </section>
       <section id="my-tickets">
         <h1>My Tickets</h1>
-        <div>
+        
           <MyTicket
-            v-for="t in tickets"
+            v-for="t in myTickets"
             :key="t.id"
-            :ticket="t"
+            :ticket = t
+           
 
-          />
-        </div>
+          >
+           <router-link :to="{ name: 'EventDetails', params: { id: e.id } }"
+              >{{ e.name }}
+            </router-link>
+          </MyTicket>
       </section>
     </div>
   </div>
@@ -61,12 +68,14 @@ import { ticketsService } from '../services/TicketsService.js';
 import Pop from '../utils/Pop.js';
 import {commentsService} from '../services/CommentsService.js';
 import { logger } from '../utils/Logger.js';
+import { useRoute } from 'vue-router';
 
-import MyTicket from '../components/MyTicket.vue';
+
 
 export default {
     name: "Account",
     setup() {
+      const route = useRoute()
         onMounted(async () => {
             await accountService.getMyEvents();
             await accountService.getMyTickets();
@@ -78,7 +87,6 @@ export default {
             myTickets: computed(() => AppState.myTickets),
         };
     },
-    components: { MyTicket }
 }
 </script>
 

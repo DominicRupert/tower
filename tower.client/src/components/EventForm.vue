@@ -78,10 +78,12 @@
 
 <script>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { eventsService } from '../services/EventsService.js'
 import Pop from '../utils/Pop.js'
 import { Modal } from 'bootstrap'
 import { onMounted, watchEffect } from 'vue'
+import { logger } from '../utils/Logger.js'
 export default {
   props: {
     event: {
@@ -90,6 +92,7 @@ export default {
     }
   },
   setup(props) {
+    const router = useRouter()
     const editable = ref({})
     watchEffect(() => {
       editable.value = { ...props.event }
@@ -102,8 +105,10 @@ export default {
           await eventsService.createEvent(editable.value)
           Pop.toast('Event made')
           Modal.getOrCreateInstance(document.getElementById('create-event')).hide()
+          router.push({ name: 'EventDetails', params: {id: props.eventId } })
         } catch (error) {
           Pop.toast(error.message)
+          logger.error(error)
 
         }
       },

@@ -1,10 +1,10 @@
 <template>
   <div class="event-card selectable" @click="selectEvent">
     <img class="img-fluid" :src="event.coverImg" alt="" />
-    <div>
-      <h2>{{ event.name }}</h2>
-      <h2>Venue: {{ event.location }}</h2>
-      <h3>
+    <div class="text-center bg-primary rounded-3">
+      <h2 class="py-3">{{ event.name }}</h2>
+      <h4 class="py-3">Venue: {{ event.location }}</h4>
+      <h4>
         Date:
         {{
           new Date(event.startDate).toLocaleDateString("en-us", {
@@ -14,10 +14,11 @@
             day: "numeric",
           })
         }}
-      </h3>
-      <h3>Max capacity: {{ event.capacity }}</h3>
+      </h4>
+      <h4>Max capacity: {{ event.capacity }}</h4>
 
       <p>{{ event.description }}</p>
+      <h4 class="bg-danger rounded-3 p-2" v-if=" event.isCanceled == true">Sorry, this event is cancelled</h4>
     </div>
   </div>
 </template>

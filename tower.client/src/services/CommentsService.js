@@ -6,18 +6,19 @@ class CommentsService{
     async createComment(body){
         const res = await api.post('api/comments', body)
         logger.log('comments', res.data)
-        AppState.comments = AppState.comments.push(res.data)
+        AppState.comments.push(res.data)
         
     }
 
     async getCommentsByEvent(eventId){
-        const res = await api.get(`api/events/${eventId}/comments`)
+        // const res = await api.get(`api/events/${eventId}/comments`)
+        const res = await api.get('api/events/'+eventId+'/comments')
         logger.log('get comments', res.data)
-        AppState.comments = res.data.comments
+        AppState.comments = res.data
     }
 
     async deleteComment(commentId){
-        const res =  await api.delete('api/comments'+ commentId)
+        const res =  await api.delete('api/comments/'+ commentId)
         logger.log('delete comment', res.data)
         AppState.comments = AppState.comments.filter(c=>c.id!=commentId)
     }

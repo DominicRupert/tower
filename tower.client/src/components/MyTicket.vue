@@ -1,18 +1,29 @@
 <template>
   <div class="myTicket container bg-dark" @click="goTo">
-   
-    <p>{{ticket.event.type }}</p>
-    <p>{{ ticket.event.date }}</p>
-    <p>{{ ticket.event.location }}</p>
-    <p>{{ ticket.event.description }}</p>
-    <i class="mdi mdi-delete" @click.stop="deleteTicket"></i>
+   <div class="d-flex justify-content-between">
+
+     <p class=" d-flex">Event name: {{ticket.event.name}}
+     </p>   
+      <button class="mdi btn btn-light mdi-delete" @click.stop="deleteTicket">Cancel?</button>
+   </div>
+
+    <p>Event type: {{ticket.event.type }}</p>
+    <p>Event date:  {{
+          new Date(ticket.event.startDate).toLocaleDateString("en-us", {
+            weekday: "long",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })
+        }}</p>
+    <p>Event location: {{ ticket.event.location }}</p>
   </div>
 </template>
 
 
 <script>
 import { onMounted, computed } from '@vue/runtime-core'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { AppState } from '../AppState.js'
 import { ticketsService } from '../services/TicketsService.js'
 import Pop from '../utils/Pop.js'
@@ -24,6 +35,7 @@ export default {
     }
   },
   setup(props) {
+    const router = useRouter()
    
     onMounted(async()=> {
         try {
@@ -46,6 +58,10 @@ export default {
         catch (error) {
           Pop.error(error.message);
         }
+      },
+      goTo(){
+                router.push({ name: 'EventDetails', params: {id:  props.ticket.eventId } })
+
       }
     }
   }

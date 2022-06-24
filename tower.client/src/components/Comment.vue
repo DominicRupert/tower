@@ -1,16 +1,20 @@
 <template>
   <div class="comments">
     <div class="row">
-      <h1>
-        {{ comment.body }}
-      </h1>
+      <div class="col-12">
 
-      <i
-        class="mdi mdi-delete"
-        v-if="comment.creatorId == accountId"
+        <h1 class="col-12 d-flex align-items-center">
+<img class="px-3" :src="account.picture" alt="">          {{comment.creator.name}}  says:   {{ comment.body }}
+     
+               <i
+       class="mdi mdi-delete"
+        v-if="comment.creator.id == account.id"
         @click="deleteComment"
       ></i>
+      </h1>
+
     </div>
+        </div>
   </div>
 </template>
 
