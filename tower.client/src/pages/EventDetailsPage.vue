@@ -35,8 +35,8 @@
           </template>
         </Modal>
       </div>
-      <div>
-        <Comment v-for="c in comments" :key="c.id" :comment="c" />
+      <div id="comments" class="container-fluid ">
+        <Comment v-for="c in comments" :key="c.id" :comment="c" class="bg-dark"/>
       </div>
     </section>
   </div>
@@ -60,6 +60,7 @@ export default {
     watchEffect(async () => {
       try {
         if (route.name == "EventDetails") {
+          AppState.myTickets.length
           await eventsService.getEvent(route.params.id);
           await ticketsService.getTicketsByEvent(route.params.id);
           await commentsService.getCommentsByEvent(route.params.id);
@@ -71,6 +72,7 @@ export default {
       }
     });
     return {
+      myTickets : computed(() => AppState.myTickets.find(t=> AppState.activeEvent.id == t.eventId)),
       event: computed(() => AppState.activeEvent),
       comments: computed(() => AppState.comments),
       tickets: computed(() => AppState.tickets),

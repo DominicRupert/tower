@@ -1,9 +1,16 @@
 <template>
-    <div class="comment">
-<img src="" alt="">
-<i class="mdi mdi-delete" v-if="comment.creatorId == accountId" @click="deleteComment"></i>
-<h4>{{comment.body}}</h4>
+  <div class="comment">
+    <i
+      class="mdi mdi-delete"
+      v-if="comment.creatorId == accountId"
+      @click="deleteComment"
+    ></i>
+    <div>
+      <p>
+        {{ comment.body }}
+      </p>
     </div>
+  </div>
 </template>
 
 
@@ -11,14 +18,34 @@
 import { AppState } from '../AppState.js'
 import { computed } from 'vue'
 import { commentsService } from '../services/CommentsService.js'
+import Pop from '../utils/Pop.js'
 export default {
-    setup(){
-        return {}
+  props: {
+    comment: {
+      type: Object,
+      required: true
     }
+  },
+  setup(props) {
+    return {
+      account: computed(() => AppState.account),
+      async deleteComment() {
+        try {
+            if(await Pop.confirm()){
+
+                await commentsService.deleteComment(props.comment.id);
+          Pop.success("Comment deleted successfully");
+            }
+        }
+        catch (error) {
+          Pop.error(error.message);
+        }
+      }
+    }
+  }
 }
 </script>
 
 
 <style lang="scss" scoped>
-
 </style>
