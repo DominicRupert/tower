@@ -1,13 +1,13 @@
 <template>
   <div class="event-details-page container-fluid bg-secondary">
     <section id="event" class="justify-content-center container-fluid text-center">
-      <h1>Event Creator: {{event.creator.name}}</h1>
-      <h1 class="py-4 d-flex justify-content-around">Details for {{ event.name }}<button class="btn btn-danger" v-show="event.isCanceled == false" v-if="account.id == event.creatorId"
-        @click.stop="deleteEvent(event.id)">
-        <h4 class="mdi mdi-delete">Cancel your Event?</h4>
-      </button></h1>
+      <h1>Event Creator: {{ event.creator?.name }}</h1>
+      <h1 class="py-4 d-flex justify-content-around">Details for {{ event.name }}<button class="btn btn-danger"
+          v-show="event.isCanceled == false" v-if="account.id == event.creatorId" @click.stop="deleteEvent(event.id)">
+          <h4 class="mdi mdi-delete">Cancel your Event?</h4>
+        </button></h1>
       <h1 class="text-warning" v-if="event.isCanceled == true">Sorry, this event is cancelled</h1>
-      
+
 
       <h2>
         It's habbening on
@@ -26,27 +26,28 @@
 
 
     </section>
-      <h4 class="px-5">{{event.description}}</h4>
+    <h4 class="px-5">{{ event.description }}</h4>
     <section id="ticket-container " class="container-fluid justify-content-center d-flex flex-column">
-      <h1 v-if="event.isCanceled == false" class="text-center">Get Tickets! Tickets remaining: {{ event.capacity }} </h1>
+      <h1 v-if="event.isCanceled == false" class="text-center">Get Tickets! Tickets remaining: {{ event.capacity }}
+      </h1>
 
-      <button v-if="event.isCanceled == false" class="btn bg-success" @click="createTicket">
+      <button v-if="event.isCanceled == false && event.capacity >= 1  " class="btn bg-success" @click="createTicket">
         <h2> Get Ticket!</h2>
         <h4> </h4>
       </button>
-     
-      
-        <div class="container-fluid text-center d-flex justify-content-center flex-column">
-          <h1>Who's attending?</h1>
-          <div class="row">
 
-            <div v-for="tick in tickets" :key="tick.id" >
-          <Ticket :ticket="tick" />
-          </div>
-          </div>
 
+      <div class="container-fluid text-center d-flex justify-content-center flex-column">
+        <h1>Who's attending?</h1>
+        <div class="row">
+
+          <div v-for="tick in tickets" :key="tick.id">
+            <Ticket :ticket="tick" />
+          </div>
         </div>
-    
+
+      </div>
+
     </section>
 
     <section class="">
@@ -64,7 +65,7 @@
       </div>
       <div class="container-fluid">
 
-        <div class="row"  v-for="c in comments" :key="c.id" >
+        <div class="row" v-for="c in comments" :key="c.id">
 
           <Comment :comment="c" />
 
@@ -96,7 +97,7 @@ import { logger } from '../utils/Logger.js'
 
 
 export default {
-  setup(props) {
+  setup() {
     onMounted(async () => {
       await accountService.getMyEvents();
       await accountService.getMyTickets();
@@ -154,7 +155,7 @@ export default {
           logger.log
         }
       },
-      event: computed(() => AppState.event),
+      // event: computed(() => AppState.event),
       event: computed(() => AppState.activeEvent),
       comments: computed(() => AppState.comments),
       myTickets: computed(() => AppState.myTickets),

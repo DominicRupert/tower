@@ -2,7 +2,7 @@
   <div class="myTicket container bg-dark" @click="goTo">
    <div class="d-flex justify-content-between">
 
-     <p class=" d-flex">Event name: {{ticket.event.name}}
+     <p class=" d-flex">Event name: {{ticket.event?.name}}
      </p>   
       <button class="mdi btn btn-light mdi-delete" @click.stop="deleteTicket">Cancel?</button>
    </div>

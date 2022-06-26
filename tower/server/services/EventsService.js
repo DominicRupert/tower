@@ -20,6 +20,7 @@ class EventsService {
   }
 
   async create(body) {
+    // TODO need to verify the start date of the event is not in the past. (compare start date with current time now)
     let towerEvent = await dbContext.Events.create(body);
     await towerEvent.populate("creator", "name picture");
     return towerEvent;
