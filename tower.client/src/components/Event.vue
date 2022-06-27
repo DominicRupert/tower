@@ -17,11 +17,42 @@
       </h4>
       <h4>Max capacity: {{ event.capacity }}</h4>
     </div>
-<div>
-
-  <p>{{ event.description }}</p>
-</div>
-      <h4 class="bg-danger rounded-3 p-2" v-if=" event.isCanceled == true">Sorry, this event is cancelled</h4>
+    <div>
+      <h4 class="bg-danger rounded-3 p-2" v-if="event.isCanceled == true">
+        Sorry, this event is cancelled
+      </h4>
+    </div>
+  </div>
+  
+  <div class="row p-3">
+    <button
+      class="btn btn-warning"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasTop{{event.id}}"
+      aria-controls="offcanvasTop"
+    >
+      Event Details
+    </button>
+  </div>
+  <div
+    class="offcanvas offcanvas-top"
+    tabindex="-1"
+    id="offcanvasTop{{event.id}}"
+    aria-labelledby="offcanvasTopLabel"
+  >
+    <div class="offcanvas-header">
+      <h5 id="offcanvasTopLabel">Details of {{ event.name }}</h5>
+      <button
+        type="button"
+        class="btn-close text-reset"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="offcanvas-body">
+      <h1>{{ event.description }}</h1>
+    </div>
   </div>
 </template>
 

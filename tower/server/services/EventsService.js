@@ -23,6 +23,9 @@ class EventsService {
     // TODO need to verify the start date of the event is not in the past. (compare start date with current time now)
     let towerEvent = await dbContext.Events.create(body);
     await towerEvent.populate("creator", "name picture");
+    if (towerEvent.startDate < new Date()) {
+      throw new BadRequest("Event start date cannot be in the past");
+    }
     return towerEvent;
   }
   async edit(id, update) {
