@@ -7,13 +7,16 @@
       <select class="form-select" v-model="sortEvents" id="event-type" aria-label="Default select example">
       
         <option value="">all</option>
+        
+
+          
         <option value="convention">WeebCon</option>
         <option value="sport">SportBall</option>
         <option value="digital">Whatever the next youtuber pay per view boxing thing is</option>
         <option value="concert">Concert</option>
       </select>
         
-      <div v-for="e in events" :key="e.id" class="col-md-3 py-2" >
+      <div v-for="e in events" :key="e.id" class="col-md-4 py-2" >
   <Event :event="e" class=""/>
     </div>
       

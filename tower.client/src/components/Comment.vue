@@ -4,17 +4,13 @@
       <div class="col-12">
 
         <h1 class="col-12 d-flex align-items-center">
-<img class="px-3" :src="account.picture" alt="">          {{comment.creator.name}}  says:   {{ comment.body }}
-     
-               <i
-       class="mdi mdi-delete"
-        v-if="comment.creator.id == account.id"
-        @click="deleteComment"
-      ></i>
-      </h1>
+          <img class="px-3" :src="account.picture" alt=""> {{ comment.creator.name }} says: {{ comment.body }}
 
+          <i class="mdi mdi-delete selectable" v-if="comment.creator.id == account.id" @click="deleteComment"></i>
+        </h1>
+
+      </div>
     </div>
-        </div>
   </div>
 </template>
 

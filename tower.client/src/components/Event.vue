@@ -1,6 +1,6 @@
 <template>
   <div class="event-card selectable" @click="selectEvent">
-    <img class="img-fluid" :src="event.coverImg" alt="" />
+    <img class="img-fluid image" v-on:touchmove="event.description" :src="event.coverImg" alt="" />
     <div class="text-center p-2 bg-primary rounded-3">
       <h2 class="py-3">{{ event.name }}</h2>
       <h4 class="py-3">Venue: {{ event.location }}</h4>
@@ -29,7 +29,7 @@
       class="btn btn-warning"
       type="button"
       data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasTop{{event.id}}"
+      :data-bs-target="`#id`+ event.id "
       aria-controls="offcanvasTop"
     >
       Event Details
@@ -38,20 +38,24 @@
   <div
     class="offcanvas offcanvas-top"
     tabindex="-1"
-    id="offcanvasTop{{event.id}}"
+    :id="`id`+ event.id "
     aria-labelledby="offcanvasTopLabel"
+    
   >
-    <div class="offcanvas-header">
+    <div class="offcanvas-header text-black">
       <h5 id="offcanvasTopLabel">Details of {{ event.name }}</h5>
       <button
         type="button"
+        
         class="btn-close text-reset"
         data-bs-dismiss="offcanvas"
+
+
         aria-label="Close"
       ></button>
     </div>
     <div class="offcanvas-body">
-      <h1>{{ event.description }}</h1>
+      <p class="text-black">{{ event.description }}</p>
     </div>
   </div>
 </template>
@@ -76,4 +80,8 @@ export default {
 
 
 <style lang="scss" scoped>
+.image:hover{
+   
+  
+}
 </style>
