@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [vue()],
   build: {
-    outDir: '../tower/tower/client',
+    outDir: '../tower/client',
     sourcemap: false
   },
   server: {
