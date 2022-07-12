@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { logger } from '../utils/Logger.js'
 import {computed, onMounted, ref} from '@vue/runtime-core'
 import { AppState } from '../AppState.js'
 import { eventsService } from '../services/EventsService.js'
