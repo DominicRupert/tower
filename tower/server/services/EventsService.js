@@ -1,4 +1,4 @@
-import { dbContext } from "../db/dbContext";
+import { dbContext } from "../db/DbContext";
 import { BadRequest } from "@bcwdev/auth0provider/lib/Errors.js";
 //write a service to handle all the event functions
 
