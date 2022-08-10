@@ -3,6 +3,7 @@
     <img class="img-fluid image" v-on:touchmove="event.description" :src="event.coverImg" alt="" />
     <div class="text-center p-2 bg-primary rounded-3">
       <h2 class="py-3">{{ event.name }}</h2>
+      
       <h4 class="py-3">Venue: {{ event.location }}</h4>
       <h4>
         Date:
