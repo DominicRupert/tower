@@ -3,7 +3,6 @@ import { BadRequest } from "@bcwdev/auth0provider/lib/Errors.js";
 //write a service to handle all the event functions
 
 class EventsService {
- 
   async getAllEvents(query = {}) {
     let events = await dbContext.Events.find(query).populate(
       "creator",
@@ -39,7 +38,7 @@ class EventsService {
     if (original.isCanceled) {
       throw new BadRequest("This event is already canceled");
     }
- 
+
     original.name = update.name ? update.name : original.name;
     original.description = update.description
       ? update.description
@@ -56,7 +55,6 @@ class EventsService {
     return update;
   }
 
-
   async cancel(eventId, creatorId) {
     const original = await this.getById(eventId);
     if (original.creatorId.toString() !== creatorId) {
@@ -65,7 +63,7 @@ class EventsService {
     if (original.isCanceled) {
       throw new BadRequest("This event is already canceled");
     }
- 
+
     original.isCanceled = true;
     await original.save();
     return original;
